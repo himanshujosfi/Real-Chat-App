@@ -5,9 +5,19 @@ import { ApiUrl } from "@/Common/Api";
 
 export const Dashboard = () => {
     const { userId } = useParams()
-    console.log("userID", userId)
     const getUser = async () => {
         const res = await fetch(ApiUrl + `/getUser/${userId}`, {
+            method: "Get",
+            headers: {
+                "content-type": "application/json"
+            },
+            credentials: "include",
+        })
+        const data = await res.json()
+        console.log(data)
+    }
+    const getAllUser = async () => {
+        const res = await fetch(ApiUrl + `/allUsers`, {
             method: "Get",
             headers: {
                 "content-type": "application/json"
@@ -20,6 +30,7 @@ export const Dashboard = () => {
 
     useEffect(() => {
         if (userId) getUser();
+        getAllUser();
     }, [userId]);
 
     return (
