@@ -9,6 +9,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 import { ApiUrl } from "@/Common/Api";
+import { Navbar } from "../Navbar/Navbar";
 
 export const Login = () => {
     const navigator = useNavigate()
@@ -51,6 +52,7 @@ export const Login = () => {
     };
     return (
         <>
+            <Navbar />
             <div className="flex items-center justify-center min-h-screen bg-gray-50">
                 <div className="w-full max-w-md bg-white rounded-xl shadow-lg p-8">
                     <h2 className="text-2xl font-semibold text-center mb-6">Login With Your Account</h2>
