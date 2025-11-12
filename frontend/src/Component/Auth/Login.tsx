@@ -5,7 +5,18 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
-import { ApiUrl } from "@/Common/Api";
+import { apiRequest } from "@/Common/Api";
+import { toast } from "react-toastify";
+
+interface LoginResponse {
+    message: string;
+    user: {
+        id: string;
+        name: string;
+        email: string;
+    };
+    token: string;
+}
 
 export const Login = () => {
     const navigator = useNavigate()
@@ -25,26 +36,16 @@ export const Login = () => {
 
     const onSubmit = async (values: RegisterFormValues) => {
         try {
-            const response = await fetch(ApiUrl + "/login", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(values),
+            const res = await apiRequest<LoginResponse>("/login", {
+                method: "Post",
+                body: values,
             });
-
-            const res = await response.json();
-
-            if (response.ok) {
-                console.log("Form submitted successfully:", res);
-                localStorage.setItem("userId", res.user.id)
-                navigator(`/${res.user.id}`);
-            } else {
-                console.error("Login failed:", res.message);
-                alert(res.message || "Login failed");
-            }
-        } catch (err) {
-            console.error("Error submitting form:", err);
+            toast.success("User Login successfully:")
+            localStorage.setItem("userId", res.user.id);
+            navigator(`/${res.user.id}`);
+        } catch (err: any) {
+            toast.error("Error submitting form:", err);
+            // alert(err.message || "Login failed");
         }
     };
     return (

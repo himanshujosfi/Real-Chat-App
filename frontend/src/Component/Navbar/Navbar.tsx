@@ -1,11 +1,45 @@
-import { Link, useLocation } from "react-router-dom"
+import { Link, useLocation, useNavigate } from "react-router-dom"
 import { PopUp } from "./PopUp";
 import { Button } from "@/components/ui/button";
 import { AvatarDemo } from "./Avatar";
+import { useContext } from "react";
+import { contextUserData } from "@/context/ContextUser";
+import { ApiUrl } from "@/Common/Api";
+import { toast } from "react-toastify";
 
 
 export const Navbar = () => {
     const { pathname } = useLocation()
+    const navigate = useNavigate()
+    const { user, refetch } = useContext(contextUserData)
+
+    const handleLogout = async () => {
+        try {
+            const res = await fetch(`${ApiUrl}/logout`, {
+                method: "POST",
+                credentials: "include",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            });
+
+            const data = await res.json();
+
+            if (res.ok) {
+                toast.success("Logged out successfully!");
+                // Clear any local user data or refetch to reset context
+                refetch();
+                // Redirect to login or homepage
+                navigate("/login");
+            } else {
+                toast.error(data?.message || "Logout failed!");
+            }
+        } catch (error) {
+            console.error("Logout error:", error);
+            toast.error("Something went wrong during logout.");
+        }
+    };
+
     return (
         <>
             <nav className="bg-gray-900 text-white px-6 py-4 flex items-center justify-between shadow-md">
@@ -37,7 +71,17 @@ export const Navbar = () => {
                 </li>
             </ul> */}
 
-                {pathname === "/" ? (
+                {user ? (
+                    <div className="hidden md:block">
+                        <Link
+                            to="/login"
+                            onClick={handleLogout}
+                            className="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-lg transition text-white"
+                        >
+                            Log Out
+                        </Link>
+                    </div>
+                ) : pathname === "/" ? (
                     <div className="hidden md:block">
                         <AvatarDemo />
                     </div>

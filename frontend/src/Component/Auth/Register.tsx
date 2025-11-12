@@ -5,7 +5,9 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Button } from "@/components/ui/button";
-import { ApiUrl } from "@/Common/Api";
+import { apiRequest } from "@/Common/Api";
+import { toast } from "react-toastify";
+
 
 export const Register = () => {
     const formSchema = z.object({
@@ -25,16 +27,19 @@ export const Register = () => {
     });
 
     const onSubmit = async (values: RegisterFormValues) => {
-        const response = await fetch(ApiUrl + "/register", {
-            method: "Post",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(values)
-        })
-        const res = response.json()
-        console.log(res)
-        console.log(" Form submitted:", values);
+        try {
+            const response = await apiRequest("/register", {
+                method: "Post",
+                body: values
+            })
+            // const res = response.json()
+            toast.success("User Register successfully:")
+            // console.log(res)
+            // console.log(" Form submitted:", values);
+            return response.json()
+        } catch (error: any) {
+            toast.error("Error submitting form:", err);
+        }
     };
     return (
         <>
