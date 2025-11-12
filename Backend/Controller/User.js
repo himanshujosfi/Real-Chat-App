@@ -66,6 +66,12 @@ export const Login = async (req, res) => {
             return res.status(400).json({ message: "Invalid email or password" });
         }
         const token = await webToken(user._id);
+        res.cookie("token", token, {
+            httpOnly: true,
+            secure: true,
+            sameSite: "None",
+            maxAge: 1 * 24 * 60 * 60 * 1000,
+        });
 
         if (user && isPassword) {
             res.status(200).json({
@@ -85,12 +91,28 @@ export const Login = async (req, res) => {
         res.status(500).json({ message: "Server Error", error })
     }
 }
+export const LogOut = async (req, res) => {
+    try {
+        res.clearCookie("token", {
+            httpOnly: true,
+            secure: true,
+            sameSite: "None",
+        });
+        res.status(200).json({ message: "Logout successful" });
+    } catch (error) {
+        console.error("Something went wrong ", error)
+        res.status(500).json({ message: "Server Error", error })
+    }
+}
+
+
 
 
 export const getUsers = async (req, res) => {
     const userId = req.params.id
     console.log("userId", userId)
     try {
+
         const users = await User.findById(userId).select("-password")
         res.status(200).json(users)
     } catch (error) {
