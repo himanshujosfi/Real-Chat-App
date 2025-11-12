@@ -5,6 +5,8 @@ import { ToastContainer } from "react-toastify"
 
 import './index.css'
 import App from './App.tsx'
+import { ContextUser } from './context/ContextUser.tsx';
+import { BrowserRouter } from 'react-router-dom';
 
 
 const queryClient = new QueryClient();
@@ -12,8 +14,12 @@ const queryClient = new QueryClient();
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <QueryClientProvider client={queryClient}>
-      <ToastContainer />
-      <App />
+      <BrowserRouter>
+        <ContextUser>
+          <ToastContainer position="top-right" autoClose={2000} />
+          <App />
+        </ContextUser>
+      </BrowserRouter>
     </QueryClientProvider>
   </StrictMode >
 )

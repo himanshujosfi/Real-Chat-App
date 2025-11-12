@@ -1,14 +1,11 @@
 import { Link, useLocation } from "react-router-dom"
-import { IoReorderThreeSharp } from "react-icons/io5";
-import { useState } from "react";
 import { PopUp } from "./PopUp";
+import { Button } from "@/components/ui/button";
+import { AvatarDemo } from "./Avatar";
 
 
 export const Navbar = () => {
     const { pathname } = useLocation()
-    const [menuOpen, setMenuOpen] = useState(false);
-    console.log("psth", menuOpen)
-
     return (
         <>
             <nav className="bg-gray-900 text-white px-6 py-4 flex items-center justify-between shadow-md">
@@ -40,29 +37,36 @@ export const Navbar = () => {
                 </li>
             </ul> */}
 
-                {
-                    pathname === "/register" ? (<div className="hidden md:block">
-                        <Link rel="stylesheet" to="/login" className="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-lg transition text-white"
-                        >Log In</Link>
-                    </div>) : (
-                        <div className="hidden md:block">
-                            <Link rel="stylesheet" to="/register"
-                                className="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-lg transition text-white"
-                            >Register</Link>
-                        </div>
-                    )
-                }
+                {pathname === "/" ? (
+                    <div className="hidden md:block">
+                        <AvatarDemo />
+                    </div>
+                ) : pathname === "/register" ? (
+                    <div className="hidden md:block">
+                        <Link
+                            to="/login"
+                            className="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-lg transition text-white"
+                        >
+                            Log In
+                        </Link>
+                    </div>
+                ) : (
+                    <div className="hidden md:block">
+                        <Link
+                            to="/register"
+                            className="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-lg transition text-white"
+                        >
+                            Register
+                        </Link>
+                    </div>
+                )}
 
-
-                {/* Mobile Menu Icon */}
                 <div className="md:hidden flex items-center">
-                    <button >
+                    <Button >
                         <PopUp />
-                    </button>
+                    </Button>
                 </div>
-
-
-            </nav>
+            </nav >
 
         </>
     )

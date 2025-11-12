@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { IoReorderThreeOutline } from "react-icons/io5";
 import { Link } from "react-router-dom";
+import { AvatarDemo } from "./Avatar";
 
 export const PopUp = () => {
     return (
@@ -25,7 +26,9 @@ export const PopUp = () => {
                         </div>
                         <div className="grid grid-cols-3 items-center gap-4">
                             <Link to={"/register"} >Register</Link>
-
+                        </div>
+                        <div className="grid grid-cols-3 items-center gap-4">
+                            <AvatarDemo />
                         </div>
                     </div>
                 </div>
