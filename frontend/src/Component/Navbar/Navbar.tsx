@@ -1,6 +1,7 @@
 import { Link, useLocation } from "react-router-dom"
 import { IoReorderThreeSharp } from "react-icons/io5";
 import { useState } from "react";
+import { PopUp } from "./PopUp";
 
 
 export const Navbar = () => {
@@ -55,34 +56,14 @@ export const Navbar = () => {
 
                 {/* Mobile Menu Icon */}
                 <div className="md:hidden flex items-center">
-                    <button onClick={() => setMenuOpen(!menuOpen)}>
-                        <IoReorderThreeSharp size={28} />
+                    <button >
+                        <PopUp />
                     </button>
                 </div>
 
 
             </nav>
-            {menuOpen && (
-                <div className="absolute top-full left-0 w-full bg-gray-800 flex flex-col items-center space-y-3 py-4 md:hidden shadow-lg z-20">
-                    {pathname === "/login" ? (
-                        <Link
-                            to="/register"
-                            className="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-lg transition text-white w-3/4 text-center"
-                            onClick={() => setMenuOpen(false)}
-                        >
-                            Register
-                        </Link>
-                    ) : (
-                        <Link
-                            to="/login"
-                            className="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-lg transition text-white w-3/4 text-center"
-                            onClick={() => setMenuOpen(false)}
-                        >
-                            Log In
-                        </Link>
-                    )}
-                </div>
-            )}
+
         </>
     )
 }
